@@ -13,6 +13,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import com.ssongk.accongbox.provider.dto.SyncRoom;
 import com.ssongk.accongbox.redis.RedisSyncMessageSubscriber;
 import com.ssongk.accongbox.websocket.dto.SyncMessage;
 
@@ -46,6 +47,14 @@ public class RedisConfig {
 		redisTemplate.setConnectionFactory(redisConnectionFactory());
 		return redisTemplate;
 	}
+	@Bean
+    public RedisTemplate<String, SyncRoom> syncRoomRedisTemplate() {
+        RedisTemplate<String, SyncRoom> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(SyncRoom.class)); //json
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        return redisTemplate;
+    }
 	@Bean
     public RedisTemplate<String, SyncMessage> syncRedisTemplate() {
     	//SyncMessage 객체 publish에 사용되는 템플릿

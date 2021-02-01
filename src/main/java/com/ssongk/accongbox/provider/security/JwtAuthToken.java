@@ -2,6 +2,8 @@ package com.ssongk.accongbox.provider.security;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import com.ssongk.accongbox.core.security.AuthToken;
@@ -22,15 +24,16 @@ public class JwtAuthToken implements AuthToken<Claims> {
     private final Key key;
 
     private static final String AUTHORITIES_KEY = "role";
+    private static final String ROOM_ID_KEY = "roomId";
 
     JwtAuthToken(String token, Key key) {
         this.token = token;
         this.key = key;
     }
 
-    JwtAuthToken(String id, String role, Date expiredDate, Key key) {
+    JwtAuthToken(String id, String role, String roomId, Date expiredDate, Key key) {
         this.key = key;
-        this.token = createJwtAuthToken(id, role, expiredDate).get();
+        this.token = createJwtAuthToken(id, role, roomId, expiredDate).get();
     }
 
     @Override
@@ -60,11 +63,14 @@ public class JwtAuthToken implements AuthToken<Claims> {
         }
     }
 
-    private Optional<String> createJwtAuthToken(String id, String role, Date expiredDate) {
-
-        var token = Jwts.builder()
-                .setSubject(id)
-                .claim(AUTHORITIES_KEY, role)
+    private Optional<String> createJwtAuthToken(String name, String role, String roomId, Date expiredDate) {
+    	
+    	Map<String, Object> payloads = new HashMap<>(); // 값 넣기
+    	payloads.put(AUTHORITIES_KEY, role);
+    	payloads.put(ROOM_ID_KEY, roomId);
+        var token = Jwts.builder() //토큰발급
+                .setSubject(name)
+                .setClaims(payloads)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(expiredDate)
                 .compact();
