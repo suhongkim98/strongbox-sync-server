@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ssongk.accongbox.controller.dto.SyncRequestDTO;
+import com.ssongk.accongbox.controller.dto.SyncResponseDTO;
 import com.ssongk.accongbox.core.service.SyncServiceInterface;
 import com.ssongk.accongbox.provider.dto.SyncRoom;
 import com.ssongk.accongbox.provider.repository.SyncRoomRepository;
@@ -21,5 +22,12 @@ public class SyncService implements SyncServiceInterface {
 		SyncRoom room = syncRoomRepository.createRoom(syncRequestDTO);
 		return Optional.ofNullable(room);
 	}
+
+	@Override
+	public Optional<SyncRoom> findRoom(SyncResponseDTO syncResponseDTO) {
+		SyncRoom room = syncRoomRepository.searchRoom(syncResponseDTO);
+		return Optional.ofNullable(room);
+	}
+	
 	
 }

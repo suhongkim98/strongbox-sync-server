@@ -8,6 +8,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ssongk.accongbox.controller.dto.SyncRequestDTO;
+import com.ssongk.accongbox.controller.dto.SyncResponseDTO;
 import com.ssongk.accongbox.core.repository.SyncRoomRepositoryInterface;
 import com.ssongk.accongbox.provider.dto.SyncRoom;
 
@@ -36,4 +37,11 @@ public class SyncRoomRepository implements SyncRoomRepositoryInterface {
 		opsSyncRooms.put(CHAT_ROOMS, vId, room); // 인증코드를 key로 사용하자!
 		return room;
 	}
+	@Override
+	public SyncRoom searchRoom(SyncResponseDTO syncResponseDTO) {
+		SyncRoom room = opsSyncRooms.get(CHAT_ROOMS, syncResponseDTO.getVertificationCode()); // 인증코드로 방을 찾는다.
+		room.setResponsorName(syncResponseDTO.getName());
+		return room;
+	}
+	
 }

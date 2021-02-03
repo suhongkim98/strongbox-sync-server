@@ -18,4 +18,12 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
+	@ExceptionHandler(SyncRoomNotFoundException.class)
+	protected ResponseEntity<ErrorResponse> handleSyncRoomNotFoundException(SyncRoomNotFoundException e) {
+		ErrorResponse response = ErrorResponse.create()
+				.code(ErrorCode.SYNC_ROOM_FIND_FAILED.getCode())
+				.message(ErrorCode.SYNC_ROOM_FIND_FAILED.getMessage())
+				.status(ErrorCode.SYNC_ROOM_FIND_FAILED.getStatus());
+		return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+	}
 }

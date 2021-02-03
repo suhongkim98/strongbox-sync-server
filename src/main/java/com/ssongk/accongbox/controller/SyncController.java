@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssongk.accongbox.controller.dto.CommonResponse;
 import com.ssongk.accongbox.controller.dto.SyncRequestDTO;
+import com.ssongk.accongbox.controller.dto.SyncResponseDTO;
 import com.ssongk.accongbox.core.security.Role;
+import com.ssongk.accongbox.exception.SyncRoomNotFoundException;
 import com.ssongk.accongbox.provider.dto.SyncRoom;
 import com.ssongk.accongbox.provider.security.JwtAuthToken;
 import com.ssongk.accongbox.provider.security.JwtAuthTokenProvider;
@@ -42,11 +44,16 @@ public class SyncController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	@PostMapping("/responseSync")
-	public ResponseEntity<CommonResponse> responseSync() {
+	public ResponseEntity<CommonResponse> responseSync(SyncResponseDTO syncResponseDTO) {
+		SyncRoom room = syncService.findRoom(syncResponseDTO).orElseThrow(() -> new SyncRoomNotFoundException()); // null이면 exception 발행
+		Date expiredDate = Date.from(LocalDateTime.now().plusSeconds(30).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 30초만 유지되도록 설정
+		JwtAuthToken token = jwtAuthTokenProvider.createAuthToken(syncResponseDTO.getName(), Role.USER.getCode(), room.getRoomId(), expiredDate);  //토큰 발급 
+		
+		List<Object> dataList = List.of(room, token);
 		CommonResponse response = CommonResponse.builder()
 				.status(HttpStatus.OK)
 				.message("요청")
-				.data(null)
+				.data(dataList)
 				.build();
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
