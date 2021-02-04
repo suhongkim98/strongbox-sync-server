@@ -24,8 +24,14 @@ public class SyncService implements SyncServiceInterface {
 	}
 
 	@Override
-	public Optional<SyncRoom> findRoom(SyncResponseDTO syncResponseDTO) {
-		SyncRoom room = syncRoomRepository.searchRoom(syncResponseDTO);
+	public Optional<SyncRoom> findRoom(String vertificationCode) {
+		SyncRoom room = syncRoomRepository.searchRoom(vertificationCode);
+		return Optional.ofNullable(room);
+	}
+
+	@Override
+	public Optional<SyncRoom> responseSync(SyncResponseDTO syncResponseDTO) {
+		SyncRoom room = syncRoomRepository.updateResponsorName(syncResponseDTO);
 		return Optional.ofNullable(room);
 	}
 	

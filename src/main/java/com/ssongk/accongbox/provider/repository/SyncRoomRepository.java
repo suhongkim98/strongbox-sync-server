@@ -37,10 +37,20 @@ public class SyncRoomRepository implements SyncRoomRepositoryInterface {
 		opsSyncRooms.put(CHAT_ROOMS, vId, room); // 인증코드를 key로 사용하자!
 		return room;
 	}
+	
 	@Override
-	public SyncRoom searchRoom(SyncResponseDTO syncResponseDTO) {
-		SyncRoom room = opsSyncRooms.get(CHAT_ROOMS, syncResponseDTO.getVertificationCode()); // 인증코드로 방을 찾는다.
-		room.setResponsorName(syncResponseDTO.getName());
+	public SyncRoom searchRoom(String vertificationCode) {
+		SyncRoom room = opsSyncRooms.get(CHAT_ROOMS, vertificationCode); // 인증코드로 방을 찾는다.
+		return room;
+	}
+	
+	@Override
+	public SyncRoom updateResponsorName(SyncResponseDTO syncResponseDTO) {
+		SyncRoom room = searchRoom(syncResponseDTO.getVertificationCode());
+		if(room != null) {
+			room.setResponsorName(syncResponseDTO.getName());
+			opsSyncRooms.put(CHAT_ROOMS, syncResponseDTO.getVertificationCode(), room);
+		}
 		return room;
 	}
 	

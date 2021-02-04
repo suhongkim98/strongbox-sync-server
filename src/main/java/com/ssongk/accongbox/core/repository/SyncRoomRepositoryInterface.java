@@ -6,5 +6,6 @@ import com.ssongk.accongbox.provider.dto.SyncRoom;
 
 public interface SyncRoomRepositoryInterface {
 	public SyncRoom createRoom(SyncRequestDTO syncRequestDTO);
-	public SyncRoom searchRoom(SyncResponseDTO syncResponseDTO);
+	public SyncRoom searchRoom(String vertificationCode);
+	public SyncRoom updateResponsorName(SyncResponseDTO syncResponseDTO);
 }

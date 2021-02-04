@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,12 +24,15 @@ import com.ssongk.accongbox.provider.service.SyncService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/sync")
 public class SyncController {
 	private final SyncService syncService;
 	private final JwtAuthTokenProvider jwtAuthTokenProvider;
+	
+	
 	@PostMapping("/requestSync")
 	public ResponseEntity<CommonResponse> requestSync(SyncRequestDTO syncRequestDTO) {
 		SyncRoom room = syncService.createSyncRoom(syncRequestDTO).orElseGet(() -> null); // 방을 생성한다 나중에 스레드 써서 30초 뒤에 삭제되도록 해야함
@@ -43,9 +47,10 @@ public class SyncController {
 				.build();
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
 	@PostMapping("/responseSync")
 	public ResponseEntity<CommonResponse> responseSync(SyncResponseDTO syncResponseDTO) {
-		SyncRoom room = syncService.findRoom(syncResponseDTO).orElseThrow(() -> new SyncRoomNotFoundException()); // null이면 exception 발행
+		SyncRoom room = syncService.responseSync(syncResponseDTO).orElseThrow(() -> new SyncRoomNotFoundException()); // null이면 exception 발행
 		Date expiredDate = Date.from(LocalDateTime.now().plusSeconds(30).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 30초만 유지되도록 설정
 		JwtAuthToken token = jwtAuthTokenProvider.createAuthToken(syncResponseDTO.getName(), Role.USER.getCode(), room.getRoomId(), expiredDate);  //토큰 발급 
 		
