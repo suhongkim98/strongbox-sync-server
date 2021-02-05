@@ -13,7 +13,9 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		//클라이언트에서 stomp이용한 웹소켓 연결을 할 EndPoint를 설정한다.
-		registry.addEndpoint("/socket").setAllowedOrigins("*").withSockJS();
+		registry.addEndpoint("/socket")
+		.setAllowedOriginPatterns("*") //cors 문제 해결 부들부들
+		.withSockJS();
 	}
 
 	@Override

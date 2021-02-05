@@ -24,7 +24,6 @@ import com.ssongk.accongbox.provider.service.SyncService;
 
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin("*")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/sync")
