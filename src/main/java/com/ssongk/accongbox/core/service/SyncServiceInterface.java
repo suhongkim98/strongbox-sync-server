@@ -10,4 +10,7 @@ public interface SyncServiceInterface {
 	public Optional<SyncRoom> createSyncRoom(SyncRequestDTO syncRequestDTO);
 	public Optional<SyncRoom> findRoom(String vertificationCode);
 	public Optional<SyncRoom> responseSync(SyncResponseDTO syncResponseDTO);
+	public void addWebSocketSessionToRoom(String vertificationCode, String sessionId);
+	public void removeWebSocketSessionFromRoom(String sessionId);
+	public int getSessionCount(String vertificationCode);
 }

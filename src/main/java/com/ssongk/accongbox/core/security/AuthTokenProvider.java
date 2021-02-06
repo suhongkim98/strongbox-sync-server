@@ -6,7 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 public interface AuthTokenProvider<T> {
-    T createAuthToken(String name, String role, String roomId, Date expiredDate);
+    T createAuthToken(String name, String role, String roomId, String vertificationCode, Date expiredDate);
     T convertAuthToken(String token);
     Optional<String> resolveToken(HttpServletRequest request);
 }

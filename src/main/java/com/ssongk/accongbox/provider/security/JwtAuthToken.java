@@ -25,15 +25,16 @@ public class JwtAuthToken implements AuthToken<Claims> {
 
     private static final String AUTHORITIES_KEY = "role";
     private static final String ROOM_ID_KEY = "roomId";
+    private static final String VERTIFICATION_CODE_KEY = "vertificationCode";
 
     JwtAuthToken(String token, Key key) {
         this.token = token;
         this.key = key;
     }
 
-    JwtAuthToken(String id, String role, String roomId, Date expiredDate, Key key) {
+    JwtAuthToken(String id, String role, String roomId, String vertificationCode, Date expiredDate, Key key) {
         this.key = key;
-        this.token = createJwtAuthToken(id, role, roomId, expiredDate).get();
+        this.token = createJwtAuthToken(id, role, roomId, vertificationCode, expiredDate).get();
     }
 
     @Override
@@ -63,11 +64,12 @@ public class JwtAuthToken implements AuthToken<Claims> {
         }
     }
 
-    private Optional<String> createJwtAuthToken(String name, String role, String roomId, Date expiredDate) {
+    private Optional<String> createJwtAuthToken(String name, String role, String roomId, String vertificationCode, Date expiredDate) {
     	
     	Map<String, Object> payloads = new HashMap<>(); // 값 넣기
     	payloads.put(AUTHORITIES_KEY, role);
     	payloads.put(ROOM_ID_KEY, roomId);
+    	payloads.put(VERTIFICATION_CODE_KEY, vertificationCode);
         var token = Jwts.builder() //토큰발급
                 .setSubject(name)
                 .setClaims(payloads)

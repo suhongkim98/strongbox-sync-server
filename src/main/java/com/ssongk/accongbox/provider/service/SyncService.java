@@ -34,6 +34,30 @@ public class SyncService implements SyncServiceInterface {
 		SyncRoom room = syncRoomRepository.updateResponsorName(syncResponseDTO);
 		return Optional.ofNullable(room);
 	}
+
+	@Override
+	public void addWebSocketSessionToRoom(String vertificationCode, String sessionId) {
+		//방에 해당 세션값을 리스트에 추가한다
+		syncRoomRepository.addWebSocketSessionToRoom(vertificationCode, sessionId);
+	}
+
+	@Override
+	public void removeWebSocketSessionFromRoom(String sessionId) {
+		//방에 해당 세션값을 리스트에서 삭제한다
+		//세션 카운트 수가 0이라면 해당 방을 삭제한다
+		if(syncRoomRepository.getRoomSessionCountBySessionId(sessionId)  <= 1) {
+			// 삭제당하는 본인만 방에 구독을 한 상태라면 방 삭제
+			SyncRoom room = syncRoomRepository.searchRoomBySessionId(sessionId);
+			syncRoomRepository.deleteRoom(room.getVertificationCode());
+		}
+		syncRoomRepository.removeWebSocketSessionFromRoom(sessionId); // 세션삭제
+	}
+
+	@Override
+	public int getSessionCount(String vertificationCode) {
+		//세션 카운트를 반환한다
+		return syncRoomRepository.getRoomSessionCount(vertificationCode);
+	}
 	
 	
 }

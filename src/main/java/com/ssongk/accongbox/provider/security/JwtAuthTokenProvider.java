@@ -23,9 +23,9 @@ public class JwtAuthTokenProvider implements AuthTokenProvider<JwtAuthToken> {
     }
 
     @Override
-    public JwtAuthToken createAuthToken(String name, String role, String roomId, Date expiredDate) {
+    public JwtAuthToken createAuthToken(String name, String role, String roomId, String vertificationCode, Date expiredDate) {
     	//토큰을 생성한다
-        return new JwtAuthToken(name, role, roomId, expiredDate, key);
+        return new JwtAuthToken(name, role, roomId, vertificationCode, expiredDate, key);
     }
 
     @Override

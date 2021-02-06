@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class StompChannelInterceptor implements ChannelInterceptor {
 //stomp 채널로 들어오는 메시지 가로채서 검사하자
+	//연결, 연결 종료는 이벤트리스너에서 
 	
     private static final String ROOM_ID_KEY = "roomId";
 	private final JwtAuthTokenProvider jwtAuthTokenProvider;

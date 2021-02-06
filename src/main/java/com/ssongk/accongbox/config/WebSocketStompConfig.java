@@ -33,7 +33,7 @@ public class WebSocketStompConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
-		//토큰검사위한 채널 인터셉터 설정
+		//토큰검사위한 채널 인터셉터 설정z
 		registration.interceptors(stompChannelInterceptor);
 	}
 	
