@@ -76,7 +76,7 @@ public class RedisConfig {
 	@Bean
 	public ChannelTopic redisSyncTopic() {
 		// redis 구독 채널 생성
-		ChannelTopic channelTopic = new ChannelTopic("test");
+		ChannelTopic channelTopic = new ChannelTopic("syncServers");
 		return channelTopic;
 	}
 }

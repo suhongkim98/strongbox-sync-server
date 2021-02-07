@@ -41,6 +41,7 @@ public class StompChannelInterceptor implements ChannelInterceptor {
 		} else if (accessor.getCommand() == StompCommand.SEND) {
 			JwtAuthToken token = jwtAuthTokenProvider.convertAuthToken(accessor.getFirstNativeHeader("token")); // 토큰을 헤더에서 꺼내 객체로 만든다.
 			token.validate(); // 토큰 유효성 검사
+			System.out.println(accessor.getDestination());
 		}
 		return message;
 	}

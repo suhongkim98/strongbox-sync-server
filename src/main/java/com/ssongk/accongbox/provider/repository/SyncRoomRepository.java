@@ -51,6 +51,7 @@ public class SyncRoomRepository implements SyncRoomRepositoryInterface {
 	@Override
 	public SyncRoom searchRoomBySessionId(String sessionId) {
 		//해당 세션이 속한 방을 반환한다
+		//socket세션이 가르키는 방 안에 있는 값은 바뀔 수 있으니 syncRoom의 room을 반환하자
 		SyncRoom room = opsSocketSessions.get(SESSION_INFO, sessionId);
 		return opsSyncRooms.get(CHAT_ROOMS, room.getVertificationCode());
 	}

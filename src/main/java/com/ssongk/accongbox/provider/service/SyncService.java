@@ -45,12 +45,12 @@ public class SyncService implements SyncServiceInterface {
 	public void removeWebSocketSessionFromRoom(String sessionId) {
 		//방에 해당 세션값을 리스트에서 삭제한다
 		//세션 카운트 수가 0이라면 해당 방을 삭제한다
-		if(syncRoomRepository.getRoomSessionCountBySessionId(sessionId)  <= 1) {
-			// 삭제당하는 본인만 방에 구독을 한 상태라면 방 삭제
-			SyncRoom room = syncRoomRepository.searchRoomBySessionId(sessionId);
+		SyncRoom room = syncRoomRepository.searchRoomBySessionId(sessionId);
+		syncRoomRepository.removeWebSocketSessionFromRoom(sessionId); // 세션삭제
+		if(room.getCount() <= 1) {
+			// 나만 구독한 상태였다면 방 삭제
 			syncRoomRepository.deleteRoom(room.getVertificationCode());
 		}
-		syncRoomRepository.removeWebSocketSessionFromRoom(sessionId); // 세션삭제
 	}
 
 	@Override

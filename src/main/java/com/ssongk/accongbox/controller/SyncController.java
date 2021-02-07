@@ -35,7 +35,7 @@ public class SyncController {
 	@PostMapping("/requestSync")
 	public ResponseEntity<CommonResponse> requestSync(SyncRequestDTO syncRequestDTO) {
 		SyncRoom room = syncService.createSyncRoom(syncRequestDTO).orElseGet(() -> null); // 방을 생성한다 나중에 스레드 써서 30초 뒤에 삭제되도록 해야함
-		Date expiredDate = Date.from(LocalDateTime.now().plusSeconds(30).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 30초만 유지되도록 설정
+		Date expiredDate = Date.from(LocalDateTime.now().plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 2분만 유지되도록 설정, 2분 내에 동기화가 이뤄져야함
 		JwtAuthToken token = jwtAuthTokenProvider.createAuthToken(syncRequestDTO.getName(), Role.USER.getCode(), room.getRoomId(), room.getVertificationCode(), expiredDate);  //토큰 발급 
 		
 		List<Object> dataList = List.of(room, token);
@@ -50,7 +50,7 @@ public class SyncController {
 	@PostMapping("/responseSync")
 	public ResponseEntity<CommonResponse> responseSync(SyncResponseDTO syncResponseDTO) {
 		SyncRoom room = syncService.responseSync(syncResponseDTO).orElseThrow(() -> new SyncRoomNotFoundException()); // null이면 exception 발행
-		Date expiredDate = Date.from(LocalDateTime.now().plusSeconds(30).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 30초만 유지되도록 설정
+		Date expiredDate = Date.from(LocalDateTime.now().plusMinutes(2).atZone(ZoneId.systemDefault()).toInstant()); // 토큰은 2분만 유지되도록 설정
 		JwtAuthToken token = jwtAuthTokenProvider.createAuthToken(syncResponseDTO.getName(), Role.USER.getCode(), room.getRoomId(), room.getVertificationCode(), expiredDate);  //토큰 발급 
 		
 		List<Object> dataList = List.of(room, token);
