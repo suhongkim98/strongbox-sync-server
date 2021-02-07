@@ -52,7 +52,7 @@ public class SyncRoomRepository implements SyncRoomRepositoryInterface {
 	public SyncRoom searchRoomBySessionId(String sessionId) {
 		//해당 세션이 속한 방을 반환한다
 		SyncRoom room = opsSocketSessions.get(SESSION_INFO, sessionId);
-		return room;
+		return opsSyncRooms.get(CHAT_ROOMS, room.getVertificationCode());
 	}
 	
 	@Override
