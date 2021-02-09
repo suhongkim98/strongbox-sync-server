@@ -14,6 +14,6 @@ public class SyncMessage {
 	}
 	private MessageType type;
 	private String roomId;
-	private String sender;
+	private String senderToken;
 	private String message;
 }
