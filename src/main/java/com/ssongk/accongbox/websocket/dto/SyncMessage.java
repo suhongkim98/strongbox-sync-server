@@ -7,7 +7,10 @@ import lombok.Setter;
 @Setter
 public class SyncMessage {
 	public enum MessageType{
-		CONNECT_SUCCESS, DATA
+		CONNECT_SUCCESS, 
+		SYNC_AGREE, 
+		SYNC_DENY, 
+		DATA,
 	}
 	private MessageType type;
 	private String roomId;
