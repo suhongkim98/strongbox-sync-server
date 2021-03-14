@@ -31,6 +31,10 @@ public class SyncRoomRepository implements SyncRoomRepositoryInterface {
 		String roomId = UUID.randomUUID().toString();
 		//랜덤 인증번호 생성
 		String vId = String.format("%06d", (int)(Math.random()*1000000));
+		while(searchRoom(vId) != null) {
+			// 만약 해당 인증번호로 방이 검색된다면 검색이 안될 때까지 인증번호 생성
+			vId = String.format("%06d", (int)(Math.random()*1000000));
+		}
 		// 생성한사람 이름 삽입해서 방 생성
 		SyncRoom room = SyncRoom.builder()
 				.roomId(roomId)
