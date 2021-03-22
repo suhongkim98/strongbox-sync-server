@@ -11,7 +11,7 @@ public class SyncMessage {
 		SYNC_AGREE, 
 		SYNC_DENY, 
 		DATA,
-		SYNC_FINISH,
+		SYNC_RECEIVE,
 	}
 	private MessageType type;
 	private String roomId;
