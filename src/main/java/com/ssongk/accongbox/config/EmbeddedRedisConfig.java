@@ -8,12 +8,13 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import redis.embedded.RedisServer;
 
-@PropertySource("classpath:/application.properties")
 @Configuration
+@Profile("dev") // 개발환경에서만 실행되게
 public class EmbeddedRedisConfig {
 //embedded redis를 사용하겠다. embedded redis 쓰는게 아니라면 삭제해야함
     @Value("${spring.redis.port}")
