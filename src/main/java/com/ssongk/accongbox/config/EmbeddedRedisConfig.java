@@ -14,7 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 import redis.embedded.RedisServer;
 
 @Configuration
-@Profile("dev") // 개발환경에서만 실행되게
+@Profile("local") // local환경에서만 실행되게
 public class EmbeddedRedisConfig {
 //embedded redis를 사용하겠다. embedded redis 쓰는게 아니라면 삭제해야함
     @Value("${spring.redis.port}")
