@@ -17,7 +17,6 @@ import com.ssongk.accongbox.provider.dto.SyncRoom;
 import com.ssongk.accongbox.redis.RedisSyncMessageSubscriber;
 import com.ssongk.accongbox.websocket.dto.SyncMessage;
 
-@PropertySource("classpath:/application.properties")
 @Configuration
 public class RedisConfig {
     @Value("${spring.redis.host}")

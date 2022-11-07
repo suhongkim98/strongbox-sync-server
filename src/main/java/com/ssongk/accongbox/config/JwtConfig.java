@@ -7,7 +7,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import com.ssongk.accongbox.provider.security.JwtAuthTokenProvider;
 
-@PropertySource("classpath:/application.properties")
 @Configuration
 public class JwtConfig {
 	 @Value("${jwt.secret}")
